@@ -4,34 +4,12 @@ filetype off                  " required
 set splitbelow
 set splitright
 set encoding=utf-8
+set shell=/bin/zsh
+
+let mapleader = "'"
 
 " set the runtime path to include Vundle and initialize
 set nu  " Line-numbering
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-Plugin 'vim-scripts/indentpython.vim'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'nvie/vim-flake8'  " PEP8
-Plugin 'jistr/vim-nerdtree-tabs'  " File-tree 
-Plugin 'kien/ctrlp.vim'  " Global super-search
-Plugin 'tpope/vim-fugitive'  " Git integration
-
-" Python auto-complete plugin
-Bundle 'Valloric/YouCompleteMe'
-
-" add all your plugins here (note older versions of Vundle
-" used Bundle instead of Plugin)
-
-" ...
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
 filetype plugin indent on    " required
 
 " Set splitting keymapping
@@ -39,6 +17,18 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+" Save, Exit w/Save, Exit w/o Save shortcuts
+noremap <Leader>w :w<CR>
+noremap <Leader>q :wq<CR>
+noremap <Leader>e :q!<CR>
+
+
+" Use same clipboard as system clipboard 
+vnoremap <leader>y "+y" 
+nnoremap <leader>y "+y"
+nnoremap <leader>p "+p"
+vnoremap <leader>p "+p" 
 
 " Auto-indent for python files due to PEP8
 au BufNewFile,BufRead *.py
@@ -72,3 +62,37 @@ let NERDTreeIgnore=['\.pyc$', '\~$']  " Ignore certain files in NERDTree
 map <C-n> :NERDTreeToggle<CR>
 
 syntax on
+
+"" PLUGIN MANAGEMENT
+packadd minpac
+call minpac#init()
+
+" Managed plugins (automated installed and update via "Pu" and "Pc")
+
+call minpac#add('gmarik/Vundle.vim')
+call minpac#add('vim-scripts/indentpython.vim')
+call minpac#add('vim-syntastic/syntastic')
+call minpac#add('nvie/vim-flake8') " PEP8
+call minpac#add('jistr/vim-nerdtree-tabs') " File-tree 
+call minpac#add('kien/ctrlp.vim') " Global super-search
+call minpac#add('tpope/vim-fugitive') " Git integration
+call minpac#add('racer-rust/vim-racer') " Rust Racer
+
+command! Pu call minpac#update()
+command! Pc call minpac#clean()
+
+"" ADDITIONAL CONFIGURATION
+
+" Spelling
+nnoremap <leader>sp :set spell<CR>
+nnoremap <leader>s ]s
+nnoremap <leader>f 1z=
+
+
+" Kill the arrow keys
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
